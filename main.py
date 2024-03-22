@@ -15,6 +15,6 @@ else:
     print("Failed to download the file.")
 from ota_cloner import OTA
 url = "github.com/repos/Antonio-Etemadi/foil"
-ota_instance = OTA(url)
+ota_instance = Ota_github(url)
 ota_instance.run_ota()
 gc.collect()
