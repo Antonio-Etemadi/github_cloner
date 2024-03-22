@@ -278,7 +278,7 @@ class Ota_github:
 #====================================================
                 
 
-    def run_ota(self):
+    def run_cloner(self):
         self.logger_console.info(f"\033[45m.........connecting..........\033[0m")
         self.download_repository_list()
         self.list_directory_entries()
@@ -294,7 +294,7 @@ class Ota_github:
         self.logger_console.info(f"\033[41mcleaned memory {cleaned_memory} KB\033[0m")
 #============================================================
 if __name__ == "__main__":
-    url = "github.com/repos/Antonio-Etemadi/goithub_cloner"
+    url = "github.com/repos/Antonio-Etemadi/github_cloner"
     ota_instance = Ota_github(url)
-    ota_instance.run_ota()
+    ota_instance.run_cloner()
 
