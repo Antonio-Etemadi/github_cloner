@@ -3,7 +3,7 @@ try :
 except :
     import urequests as requests
 
-url = "https://raw.githubusercontent.com/Antonio-Etemadi/foil/main/ota_cloner.py"
+url = "https://raw.githubusercontent.com/Antonio-Etemadi/goithub_cloner/main/github_cloner.py"
 response = requests.get(url)
 
 if response.status_code == 200:
