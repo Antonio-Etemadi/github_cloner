@@ -29,29 +29,9 @@ class Git_cloner:
         self.update_list=[]
         self.download_list=[]
         self.ota_cloner_name=ota_cloner_name
-       
-#============================================
-    def setup_logging(self):
-#         print(":setup_logging:")
-        current_time = time.localtime()
-        asctime = "{:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}".format(*current_time)
-        formatter = logging.Formatter(f'{asctime} - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-
-        self.logger_console = logging.getLogger(__name__ + '.console')
-        self.logger_console.setLevel(getattr(logging, self.console_log_level.upper()))
-        console_handler = logging.StreamHandler(sys.stdout)
-        console_handler.setLevel(getattr(logging, self.console_log_level.upper()))
-        console_handler.setFormatter(formatter)
-        self.logger_console.addHandler(console_handler)
 
 
-        self.logger = logging.getLogger(__name__ + '.file')
-        self.logger.setLevel(getattr(logging, self.file_log_level.upper()))
-        file_handler = logging.FileHandler(self.log_path+"/"+self.log_name)
-        file_handler.setLevel(getattr(logging, self.file_log_level.upper()))
-        file_handler.setFormatter(formatter)
-        self.logger.addHandler(file_handler)
-#=========================================================        
+#====================================================== 
     def mkdir(self,path):
 #         print(":mkdir:")
         base_directory = "/" 
@@ -67,8 +47,31 @@ class Git_cloner:
                 os.mkdir(subdirectory)
             except:
                 pass
+#============================================
+    def setup_logging(self):
+#         print(":setup_logging:")
+        current_time = time.localtime()
+        asctime = "{:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}".format(*current_time)
+        formatter = logging.Formatter(f'{asctime} - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
         
-#======================================================        
+        self.logger_console = logging.getLogger(__name__ + '.console')
+        self.logger_console.setLevel(getattr(logging, self.console_log_level.upper()))
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setLevel(getattr(logging, self.console_log_level.upper()))
+        console_handler.setFormatter(formatter)
+        self.logger_console.addHandler(console_handler)
+
+        self.mkdir(self.log_path)
+        self.logger = logging.getLogger(__name__ + '.file')
+        self.logger.setLevel(getattr(logging, self.file_log_level.upper()))
+        file_handler = logging.FileHandler(self.log_path+"/"+self.log_name)
+        file_handler.setLevel(getattr(logging, self.file_log_level.upper()))
+        file_handler.setFormatter(formatter)
+        self.logger.addHandler(file_handler)
+#=========================================================        
+
+        
+       
     def download_repository_list(self):
 #         print(":download_repository_list:")
         if not self.url.startswith("https://api.github.com/"):
@@ -264,3 +267,4 @@ if __name__ == "__main__":
     url="https://github.com/Antonio-Etemadi/github_cloner"
     cloner = Git_cloner(url)
     cloner.run_cloner()
+
