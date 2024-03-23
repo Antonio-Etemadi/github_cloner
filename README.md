@@ -8,19 +8,18 @@ Please note that before cloning the repository, this module will remove all file
 
 ## Installation
 
-You can install this module via pip:
+Run main.py in micropython
 
 
-pip install github-repo-cloner
 Usage
 To clone a GitHub repository, you can use the following command:
 
-bash
 Copy code
-github_repo_cloner clone <repository_url> <destination_path>
-Replace <repository_url> with the URL of the repository you want to clone, and <destination_path> with the path where you want to clone the repository.
+from github_cloner import Git_cloner
+url="https://github.com/Antonio-Etemadi/github_cloner"
+cloner = Git_cloner(url)
+cloner.run_cloner().
 
-Warning: This module will remove all files and directories in the destination path before cloning the repository.
+Warning:  
+This module will remove all files and directories in the destination path before cloning the repository.
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
