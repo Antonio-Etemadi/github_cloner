@@ -195,7 +195,8 @@ class Git_cloner:
 #==============================================================
     def extract_name_and_sha_from_repo(self):
         self.logger_console.debug(":extract_name_and_sha_from_repo:")
-        name_and_sha = [
+        version_list=[]
+        dont = [
             {"name": "/"+self.json_name, "path": f"{self.json_path+"/"+self.json_name}", "sha": 0, "type": "file"},
             {"name": "/logging.py", "path": f"/lib/logging.py", "sha": 0, "type": "file"},
             {"name": "/"+self.log_name, "path": f"{self.log_path+"/"+self.log_name}", "sha": 0, "type": "file"},
@@ -204,17 +205,17 @@ class Git_cloner:
             {"name": "lib", "path": "/lib/", "sha": 0, "type": "dir"},
             {"name": "lib", "path": "/github_cloner/", "sha": 0, "type": "dir"}
         ]
+        for item in dont:
+            if item["path"] not in [content["path"] for content in self.all_content_list]:
+                version_list.append(item)
+        version_list.extend([
+            {"name": item["name"], "path": item["path"], "sha": item["sha"], "type": item["type"]}for item in self.all_content_list])
 
-
-        name_and_sha.extend([
-            {"name": item["name"], "path": item["path"], "sha": item["sha"], "type": item["type"]}
-            for item in self.all_content_list
-        ])
 
         file_path = os.chdir(f"{self.json_path}")
         with open(self.json_name, 'w') as file:
-            json.dump(name_and_sha, file)
-#             self.logger.info("file name_and_sha.json created")
+            json.dump(version_list, file)
+            self.logger_console.debug("file version_list.json created")
         return
 
 #========================================================================
@@ -274,5 +275,3 @@ if __name__ == "__main__":
     url="https://github.com/Antonio-Etemadi/github_cloner"
     cloner = Git_cloner(url)
     cloner.run_cloner()
-
-
