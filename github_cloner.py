@@ -18,14 +18,13 @@ import logging
 
 
 class Ota_github:
-    def __init__(self, url,directory="/",json_path="/",json_name="name_and_sha.json",ota_cloner_name="Ota_github.py",log_name="ota.log",console_log_level="INFO",file_log_level="INFO"):
+    def __init__(self, url,directory="/",json_path="/",json_name="name_and_sha.json",ota_cloner_name="Ota_github.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO"):
         self.log_name=log_name
         self.console_log_level=console_log_level
         self.file_log_level=file_log_level
         self.setup_logging()
         self.url = url
         self.all_content_list = []
-        self.sub_dir=False
         self.directory=directory
         self.all_entries_list = []
         self.json_path=json_path
@@ -94,34 +93,30 @@ class Ota_github:
 #======================================================        
     def download_repository_list(self):
 #         print(":download_repository_list:")
-        if not self.url.startswith("http://") and not self.url.startswith("https://"):
-            self.url = "https://" + self.url
-        if "://" in self.url:
-            parts = self.url.split("://")
-            if "api." not in parts[1]:
-                self.url = parts[0] + "://api." + parts[1]    
+        if not self.url.startswith("https://api.github.com/"):
+            index = self.url.find("github.com/" )+len("github.com/")
+            repo = self.url[index:] 
+            self.url = "https://api.github.com/repos/"   + repo + "/contents"
+            
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0"
-        }
-        if not self.sub_dir:
-            response = requests.get(f"{self.url}/contents", headers=headers)
-#             print(f"{self.url}/contents")
-        else:
-            response = requests.get(f"{self.url}", headers=headers)
-#             print(f"{self.url}")
-        content_list = response.json()        
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0"
+                    }
+
+        response = requests.get(f"{self.url}", headers=headers)    
+        content_list = response.json()
+        
         for item in content_list:
             if item["type"] == "dir":
                 path = "/" + item["path"] + "/"
                 self.url=item['url']
-                self.sub_dir=True
                 self.download_repository_list()
             else:
                 path = "/" + item["path"]
             entry = {"name": item["name"], "path": path, "sha": item["sha"], "type": item["type"], "download_url": item["download_url"]}
             self.all_content_list.append(entry)
         return 
-  
+
+
 
 #===========================================================
 
@@ -278,7 +273,7 @@ class Ota_github:
 #====================================================
                 
 
-    def run_cloner(self):
+    def run_ota(self):
         self.logger_console.info(f"\033[45m.........connecting..........\033[0m")
         self.download_repository_list()
         self.list_directory_entries()
@@ -294,7 +289,8 @@ class Ota_github:
         self.logger_console.info(f"\033[41mcleaned memory {cleaned_memory} KB\033[0m")
 #============================================================
 if __name__ == "__main__":
-    url = "github.com/repos/Antonio-Etemadi/github_cloner"
+    url = "https://github.com/Antonio-Etemadi/github_cloner"
     ota_instance = Ota_github(url)
-    ota_instance.run_cloner()
+    ota_instance.run_ota()
+
 
