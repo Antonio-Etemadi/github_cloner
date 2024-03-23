@@ -12,7 +12,11 @@ except :
         print("Failed to download the file.")
     
 from github_cloner import Ota_github
-url = "github.com/Antonio-Etemadi/github_cloner"
+#url="your github repository"
+#url = "github.com/Antonio-Etemadi/github_cloner"
+#url =https://github.com/Antonio-Etemadi/github_cloner
+
+url="https://github.com/Antonio-Etemadi/github_cloner"
 ota_instance = Ota_github(url)
 ota_instance.run_ota()
 gc.collect()
