@@ -13,12 +13,11 @@ except :
 import logging
 
 class Git_cloner:
-    def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",cloner_name="github_cloner.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO",log_path="/github_cloner"):
+    def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",cloner_name="github_cloner.py",log_name="github_cloner.log",console_log_level="DEBUG",file_log_level="INFO",log_path="/github_cloner"):
         self.log_name=log_name
         self.log_path=log_path
         self.console_log_level=console_log_level
         self.file_log_level=file_log_level
-        self.setup_logging()
         self.url = url
         self.all_content_list = []
         self.directory="/"
@@ -116,8 +115,18 @@ class Git_cloner:
                 subdir_entries = self.list_directory_entries()
                 self.directory="/"
         return 
-
-
+#=======================================================
+    def find_cloner(self):
+        self.logger_console.debug(":find_cloner:") 
+        for cloner in self.all_entries_list:
+            if f"/github_cloner{"/"+self.cloner_name}" == cloner['path']:
+                break
+        else:
+            a={'type': 'file', 'download_url': 'https://raw.githubusercontent.com/Antonio-Etemadi/github_cloner/main/github_cloner/github_cloner.py', 'path': '/github_cloner/github_cloner.py', 'sha': '0', 'name': 'github_cloner.py'},
+            {'type': 'dir', 'download_url': None, 'path': '/github_cloner/', 'sha': '0', 'name': 'github_cloner'}
+            
+            self.download_list.extend(a)
+        return 
 #=======================================================
 
     def read_SHA_json(self):
@@ -136,7 +145,7 @@ class Git_cloner:
 
     def download_repository_contents(self):
         self.logger_console.debug(":download_repository_contents:")
-        for item in self.download_list: 
+        for item in self.download_list:
             if item['type'] == "dir":
                 self.mkdir(item['path'])
                 
@@ -168,8 +177,10 @@ class Git_cloner:
                 if a["path"] == b["path"] and a["sha"] == b["sha"]  :
                     for c in self.all_entries_list:
                         if a["path"] == c["path"]:
+                            
                             self.logger_console.info(f'\033[92mUp to date:------------ {a["path"]}✅\033[0m ')                            
                             break
+                        
                     else:
                         self.logger_console.info(f'\033[91mmising file:------------{a["path"]}⚠\033[0m')
                         self.logger.warning(f'mising file:------------{a["path"]} ⚠')
@@ -187,10 +198,12 @@ class Git_cloner:
             {"name": "/"+self.json_name, "path": f"{self.json_path+"/"+self.json_name}", "sha": 0, "type": "file"},
             {"name": "/logging.py", "path": f"/lib/logging.py", "sha": 0, "type": "file"},
             {"name": "/"+self.log_name, "path": f"{self.log_path+"/"+self.log_name}", "sha": 0, "type": "file"},
-            {"name": "/"+self.cloner_name, "path": f"{/github_cloner+"/"+self.cloner_name}", "sha": 0, "type": "file"},
+            {"name": "/"+self.cloner_name, "path": f"/github_cloner{"/"+self.cloner_name}", "sha": 0, "type": "file"},
             {"name": "lib", "path": "/lib/", "sha": 0, "type": "dir"},
             {"name": "lib", "path": "/github_cloner/", "sha": 0, "type": "dir"}
         ]
+
+
         name_and_sha.extend([
             {"name": item["name"], "path": item["path"], "sha": item["sha"], "type": item["type"]}
             for item in self.all_content_list
@@ -231,18 +244,18 @@ class Git_cloner:
         self.read_SHA_json()
         name_set = set(item['path'] for item in self.json_SHA_list)
         for file_info in self.all_entries_list:
-            
             if file_info["path"] not  in name_set:
                 try:
                     self.remove_dir(file_info["path"])
                 except :
                         continue
 #====================================================
-
     def run_cloner(self):
+        self.setup_logging()
         self.logger_console.info(f"\033[45m.........connecting..........\033[0m")
         self.download_repository_list()
         self.list_directory_entries()
+        self.find_cloner()
         self.read_SHA_json()
         self.find_update()
         self.download_repository_contents()
@@ -255,7 +268,6 @@ class Git_cloner:
         self.logger_console.info(f"\033[41mcleaned memory {cleaned_memory} KB\033[0m")
 #============================================================
 if __name__ == "__main__":
-    url="https://github.com/Antonio-Etemadi/foil"
+    url="https://github.com/Antonio-Etemadi/github_cloner"
     cloner = Git_cloner(url)
     cloner.run_cloner()
-
