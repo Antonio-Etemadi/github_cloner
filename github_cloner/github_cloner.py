@@ -13,7 +13,7 @@ except :
 import logging
 
 class Git_cloner:
-    def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",ota_cloner_name="Ota_github.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO",log_path="/github_cloner"):
+    def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",cloner_name="github_cloner.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO",log_path="/github_cloner"):
         self.log_name=log_name
         self.log_path=log_path
         self.console_log_level=console_log_level
@@ -28,7 +28,7 @@ class Git_cloner:
         self.json_SHA_list=[]
         self.update_list=[]
         self.download_list=[]
-        self.ota_cloner_name=ota_cloner_name
+        self.cloner_name=cloner_name
 
 
 #====================================================== 
@@ -187,6 +187,7 @@ class Git_cloner:
             {"name": "/"+self.json_name, "path": f"{self.json_path+"/"+self.json_name}", "sha": 0, "type": "file"},
             {"name": "/logging.py", "path": f"/lib/logging.py", "sha": 0, "type": "file"},
             {"name": "/"+self.log_name, "path": f"{self.log_path+"/"+self.log_name}", "sha": 0, "type": "file"},
+            {"name": "/"+self.cloner_name, "path": f"{/github_cloner+"/"+self.cloner_name}", "sha": 0, "type": "file"},
             {"name": "lib", "path": "/lib/", "sha": 0, "type": "dir"},
             {"name": "lib", "path": "/github_cloner/", "sha": 0, "type": "dir"}
         ]
