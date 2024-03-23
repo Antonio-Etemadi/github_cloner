@@ -11,7 +11,7 @@ Before using this module, please make sure to save all files  and directories yo
 
 ## Installation
 
-Install my-project with npm
+Copy main.py from this repository to your ESP, or run this code.
 
 ```bash
 try :
@@ -32,7 +32,7 @@ url="https://github.com/Antonio-Etemadi/github_cloner"
 cloner = Git_cloner(url)
 cloner.run_cloner()
 ```
-or copy main.py from this repository to ESP
+
 ## Usage/Examples
 
 ```javascript
