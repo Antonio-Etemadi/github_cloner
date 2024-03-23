@@ -13,7 +13,7 @@ if response.status_code == 200:
     
 else:
     print("Failed to download the file.")
-from ota_cloner import  Ota_github
+from github_cloner import Ota_github
 url = "github.com/repos/Antonio-Etemadi/github_cloner"
 ota_instance = Ota_github(url)
 ota_instance.run_ota()
