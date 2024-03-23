@@ -12,7 +12,7 @@ except :
     mip.install("logging",mpy=False)
 import logging
 
-class Ota_github:
+class Git_cloner:
     def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",ota_cloner_name="Ota_github.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO",log_path="/github_cloner"):
         self.log_name=log_name
         self.log_path=log_path
@@ -245,7 +245,7 @@ class Ota_github:
                         continue
 #====================================================
 
-    def run_ota(self):
+    def run_cloner(self):
         self.logger_console.info(f"\033[45m.........connecting..........\033[0m")
         self.download_repository_list()
         self.list_directory_entries()
@@ -261,6 +261,6 @@ class Ota_github:
         self.logger_console.info(f"\033[41mcleaned memory {cleaned_memory} KB\033[0m")
 #============================================================
 if __name__ == "__main__":
-    url = "https://github.com/Antonio-Etemadi/github_cloner"
-    ota_instance = Ota_github(url)
-    ota_instance.run_ota()
+    url="https://github.com/Antonio-Etemadi/github_cloner"
+    cloner = Git_cloner(url)
+    cloner.run_cloner()
