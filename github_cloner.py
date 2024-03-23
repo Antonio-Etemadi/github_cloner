@@ -32,21 +32,22 @@ class Ota_github:
 #============================================
     def setup_logging(self):
 #         print(":setup_logging:")
-        ntptime.settime()
         current_time = time.localtime()
         asctime = "{:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}".format(*current_time)
         formatter = logging.Formatter(f'{asctime} - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-        
+
         self.logger_console = logging.getLogger(__name__ + '.console')
         self.logger_console.setLevel(getattr(logging, self.console_log_level.upper()))
         console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setLevel(getattr(logging, self.console_log_level.upper()))
         console_handler.setFormatter(formatter)
         self.logger_console.addHandler(console_handler)
-        
+
+
         self.logger = logging.getLogger(__name__ + '.file')
         self.logger.setLevel(getattr(logging, self.file_log_level.upper()))
         file_handler = logging.FileHandler(self.log_name)
-        #file_handler.setLevel(getattr(logging, self.file_log_level.upper()))
+        file_handler.setLevel(getattr(logging, self.file_log_level.upper()))
         file_handler.setFormatter(formatter)
         self.logger.addHandler(file_handler)
 #=========================================================        
