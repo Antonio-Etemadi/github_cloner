@@ -123,6 +123,7 @@ class Git_cloner:
                 break
         else:
             a={'type': 'file', 'download_url': 'https://raw.githubusercontent.com/Antonio-Etemadi/github_cloner/main/github_cloner/github_cloner.py', 'path': '/github_cloner/github_cloner.py', 'sha': '0', 'name': 'github_cloner.py'},
+            {'type': 'file', 'download_url': 'https://raw.githubusercontent.com/Antonio-Etemadi/github_cloner/main/github_cloner/__init__.py', 'path': '/github_cloner/__init__.py', 'sha': '0', 'name': '__init__.py'},
             {'type': 'dir', 'download_url': None, 'path': '/github_cloner/', 'sha': '0', 'name': 'github_cloner'}
             
             self.download_list.extend(a)
@@ -199,6 +200,7 @@ class Git_cloner:
             {"name": "/logging.py", "path": f"/lib/logging.py", "sha": 0, "type": "file"},
             {"name": "/"+self.log_name, "path": f"{self.log_path+"/"+self.log_name}", "sha": 0, "type": "file"},
             {"name": "/"+self.cloner_name, "path": f"/github_cloner{"/"+self.cloner_name}", "sha": 0, "type": "file"},
+            {"name": "/__init__.py", "path": "/github_cloner/__init__.py", "sha": 0, "type": "file"},
             {"name": "lib", "path": "/lib/", "sha": 0, "type": "dir"},
             {"name": "lib", "path": "/github_cloner/", "sha": 0, "type": "dir"}
         ]
@@ -243,7 +245,9 @@ class Git_cloner:
         self.logger_console.debug(":remove_deleted_file_in_repo:")
         self.read_SHA_json()
         name_set = set(item['path'] for item in self.json_SHA_list)
+        print("$$$$$$$",name_set)
         for file_info in self.all_entries_list:
+            print("@@@",file_info)
             if file_info["path"] not  in name_set:
                 try:
                     self.remove_dir(file_info["path"])
@@ -271,3 +275,5 @@ if __name__ == "__main__":
     url="https://github.com/Antonio-Etemadi/github_cloner"
     cloner = Git_cloner(url)
     cloner.run_cloner()
+
+
