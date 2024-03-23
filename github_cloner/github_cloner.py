@@ -13,7 +13,7 @@ except :
 import logging
 
 class Git_cloner:
-    def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",cloner_name="github_cloner.py",log_name="github_cloner.log",console_log_level="DEBUG",file_log_level="INFO",log_path="/github_cloner"):
+    def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",cloner_name="github_cloner.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO",log_path="/github_cloner"):
         self.log_name=log_name
         self.log_path=log_path
         self.console_log_level=console_log_level
@@ -117,16 +117,17 @@ class Git_cloner:
         return 
 #=======================================================
     def find_cloner(self):
-        self.logger_console.debug(":find_cloner:") 
-        for cloner in self.all_entries_list:
-            if f"/github_cloner{"/"+self.cloner_name}" == cloner['path']:
-                break
-        else:
-            a={'type': 'file', 'download_url': 'https://raw.githubusercontent.com/Antonio-Etemadi/github_cloner/main/github_cloner/github_cloner.py', 'path': '/github_cloner/github_cloner.py', 'sha': '0', 'name': 'github_cloner.py'},
-            {'type': 'file', 'download_url': 'https://raw.githubusercontent.com/Antonio-Etemadi/github_cloner/main/github_cloner/__init__.py', 'path': '/github_cloner/__init__.py', 'sha': '0', 'name': '__init__.py'},
-            {'type': 'dir', 'download_url': None, 'path': '/github_cloner/', 'sha': '0', 'name': 'github_cloner'}
-            
-            self.download_list.extend(a)
+        self.logger_console.debug(":find_cloner:")
+        cloner_list=[{'type': 'file', 'download_url': 'https://raw.githubusercontent.com/Antonio-Etemadi/github_cloner/main/github_cloner/github_cloner.py', 'path': '/github_cloner/github_cloner.py', 'sha': '0', 'name': 'github_cloner.py'},
+        {'type': 'file', 'download_url': 'https://raw.githubusercontent.com/Antonio-Etemadi/github_cloner/main/github_cloner/__init__.py', 'path': '/github_cloner/__init__.py', 'sha': '0', 'name': '__init__.py'},
+        {'type': 'dir', 'download_url': None, 'path': '/github_cloner/', 'sha': '0', 'name': 'github_cloner'}]
+        
+        name_set = set(item['path'] for item in self.all_entries_list)
+        
+        for cloner in cloner_list:
+            if cloner['path'] not in name_set:
+                    self.download_list.append(cloner)
+
         return 
 #=======================================================
 
@@ -149,7 +150,6 @@ class Git_cloner:
         for item in self.download_list:
             if item['type'] == "dir":
                 self.mkdir(item['path'])
-                
         for item in self.download_list:
             if item['type'] == "file":
                 file_url = item['download_url']
@@ -245,9 +245,7 @@ class Git_cloner:
         self.logger_console.debug(":remove_deleted_file_in_repo:")
         self.read_SHA_json()
         name_set = set(item['path'] for item in self.json_SHA_list)
-        print("$$$$$$$",name_set)
         for file_info in self.all_entries_list:
-            print("@@@",file_info)
             if file_info["path"] not  in name_set:
                 try:
                     self.remove_dir(file_info["path"])
@@ -270,6 +268,7 @@ class Git_cloner:
         memory_after_gc = gc.mem_alloc()
         cleaned_memory=(initial_memory-memory_after_gc)/1000
         self.logger_console.info(f"\033[41mcleaned memory {cleaned_memory} KB\033[0m")
+
 #============================================================
 if __name__ == "__main__":
     url="https://github.com/Antonio-Etemadi/github_cloner"
