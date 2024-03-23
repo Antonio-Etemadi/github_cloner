@@ -5,7 +5,7 @@ This module is designed to clone GitHub repositories for ESP and MicroPython env
 Installation:
 To install the module, simply clone this repository to your local environment or download the ZIP file and extract its contents.
 
-Usage:
+Usage:  
 Import the github_cloner module into your Python script.
 Instantiate an object of the GitHubCloner class.
 Call the appropriate methods to clone repositories and perform file operations.
