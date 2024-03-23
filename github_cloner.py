@@ -13,7 +13,7 @@ except :
 import logging
 
 class Ota_github:
-    def __init__(self, url,directory="/",json_path="/",json_name="name_and_sha.json",ota_cloner_name="Ota_github.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO"):
+    def __init__(self, url,directory="/",json_path="/",json_name="github_version.json",ota_cloner_name="Ota_github.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO"):
         self.log_name=log_name
         self.console_log_level=console_log_level
         self.file_log_level=file_log_level
