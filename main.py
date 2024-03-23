@@ -1,5 +1,5 @@
 try :
-    from github_cloner import Ota_github
+    from github_cloner.github_cloner import Ota_github
 except :
     import urequests as requests
     url = "https://raw.githubusercontent.com/Antonio-Etemadi/github_cloner/main/github_cloner/github_cloner.py"
@@ -11,7 +11,7 @@ except :
     else:
         print("Failed to download the file.")
     
-from github_cloner import Ota_github
+from github_cloner.github_cloner import Ota_github
 #url="your github repository"
 #url = "github.com/Antonio-Etemadi/github_cloner"
 #url =https://github.com/Antonio-Etemadi/github_cloner
