@@ -33,7 +33,7 @@ class Git_cloner:
 
 #====================================================== 
     def mkdir(self,path):
-#         print(":mkdir:")
+        self.logger_console.debug(":mkdir:")
         base_directory = "/" 
         path_elements = []
         while path:
@@ -49,7 +49,6 @@ class Git_cloner:
                 pass
 #============================================
     def setup_logging(self):
-#         print(":setup_logging:")
         current_time = time.localtime()
         asctime = "{:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}".format(*current_time)
         formatter = logging.Formatter(f'{asctime} - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
@@ -73,7 +72,7 @@ class Git_cloner:
         
        
     def download_repository_list(self):
-#         print(":download_repository_list:")
+        self.logger_console.debug(":download_repository_list:")
         if not self.url.startswith("https://api.github.com/"):
             index = self.url.find("github.com/" )+len("github.com/")
             repo = self.url[index:] 
@@ -100,7 +99,7 @@ class Git_cloner:
 #===========================================================
 
     def list_directory_entries(self):
-#         print(":list_directory_entries:")
+        self.logger_console.debug(":list_directory_entries:")
         os.chdir("/"+self.directory)
         entries = os.ilistdir()
         all_entries = []
@@ -122,51 +121,42 @@ class Git_cloner:
 #=======================================================
 
     def read_SHA_json(self):
-#         print(":read_SHA_json:")
-        
-        # self.logger.info("Checking if the SHA JSON file exists.")
+        self.logger_console.debug(":read_SHA_json:")
         try:
             os.chdir(self.json_path)
             with open(self.json_name, 'r') as file:
                 self.json_SHA_list = json.load(file)
                 file.close()
         except :
-#             print(f"not found {self.json_name}")
-            # self.logger.warning("SHA JSON file not found.")
+            self.logger_console.debug("SHA JSON file not found.")
             return False
 
 
 #=======================================================================
 
     def download_repository_contents(self):
-#         print(":download_repository_contents:")
-        for item in self.download_list:
-            
+        self.logger_console.debug(":download_repository_contents:")
+        for item in self.download_list: 
             if item['type'] == "dir":
-
                 self.mkdir(item['path'])
+                
         for item in self.download_list:
-            
             if item['type'] == "file":
-
                 file_url = item['download_url']
-
-
                 file_path=os.chdir("/" )
                 response = requests.get(item['download_url'])
-
                 with open(item['path'], 'wb') as file:
                     file.write(response.content)
                     file.close()
                 self.logger.info(f'downloaded {item['path']}')
-                self.logger_console.info(f'\033[94mdownloaded:------------ {item["path"]}\033[0m ')
+                self.logger_console.info(f'\033[94mdownloaded:------------ {item["path"]}✔\033[0m ')
 
         return    
     
 
 #==============================================================
     def find_update(self):
-#         print(":find_update:")
+        self.logger_console.debug(":find_update:")
 
         for a in self.all_content_list:
             for b in self.json_SHA_list:
@@ -187,17 +177,18 @@ class Git_cloner:
                     break
             else:
                 self.logger_console.info(f'\033[93mnew file:------------{a["path"]}✔\033[0m')
-                self.logger.info(f'new file:------------{a["path"]} ✔')
+                self.logger.info(f'new file:------------{a["path"]} ')
                 self.download_list.append(a)
 
 #==============================================================
     def extract_name_and_sha_from_repo(self):
-#         print(":extract_name_and_sha_from_repo:")
+        self.logger_console.debug(":extract_name_and_sha_from_repo:")
         name_and_sha = [
             {"name": "/"+self.json_name, "path": f"{self.json_path+"/"+self.json_name}", "sha": 0, "type": "file"},
             {"name": "/logging.py", "path": f"/lib/logging.py", "sha": 0, "type": "file"},
             {"name": "/"+self.log_name, "path": f"{self.log_path+"/"+self.log_name}", "sha": 0, "type": "file"},
-            {"name": "lib", "path": "/lib/", "sha": 0, "type": "dir"}
+            {"name": "lib", "path": "/lib/", "sha": 0, "type": "dir"},
+            {"name": "lib", "path": "/github_cloner/", "sha": 0, "type": "dir"}
         ]
         name_and_sha.extend([
             {"name": item["name"], "path": item["path"], "sha": item["sha"], "type": item["type"]}
@@ -212,7 +203,7 @@ class Git_cloner:
 
 #========================================================================
     def remove_dir(self,rm_dir):  # Remove file or tree
-#         print(":remove_dir:")
+        self.logger_console.debug(":remove_dir:")
         try:
             if os.stat(rm_dir)[0] & 0x4000:  # Dir
                 for file in os.ilistdir(rm_dir):
@@ -235,7 +226,7 @@ class Git_cloner:
 
 # #⚠✔⛔❎
     def remove_deleted_file_in_repo(self ):
-#         print(":remove_deleted_file_in_repo:")
+        self.logger_console.debug(":remove_deleted_file_in_repo:")
         self.read_SHA_json()
         name_set = set(item['path'] for item in self.json_SHA_list)
         for file_info in self.all_entries_list:
@@ -263,7 +254,7 @@ class Git_cloner:
         self.logger_console.info(f"\033[41mcleaned memory {cleaned_memory} KB\033[0m")
 #============================================================
 if __name__ == "__main__":
-    url="https://github.com/Antonio-Etemadi/github_cloner"
+    url="https://github.com/Antonio-Etemadi/foil"
     cloner = Git_cloner(url)
     cloner.run_cloner()
 
