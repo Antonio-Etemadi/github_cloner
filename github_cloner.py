@@ -12,11 +12,6 @@ except :
     mip.install("logging",mpy=False)
 import logging
 
-
-
-
-
-
 class Ota_github:
     def __init__(self, url,directory="/",json_path="/",json_name="name_and_sha.json",ota_cloner_name="Ota_github.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO"):
         self.log_name=log_name
@@ -33,43 +28,26 @@ class Ota_github:
         self.update_list=[]
         self.download_list=[]
         self.ota_cloner_name=ota_cloner_name
-        
-        
-
-        
+       
 #============================================
     def setup_logging(self):
 #         print(":setup_logging:")
         ntptime.settime()
         current_time = time.localtime()
         asctime = "{:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}".format(*current_time)
-
-        # ایجاد یک شیء Logger برای کنسول
+        formatter = logging.Formatter(f'{asctime} - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+        
         self.logger_console = logging.getLogger(__name__ + '.console')
         self.logger_console.setLevel(getattr(logging, self.console_log_level.upper()))
-
-        # ایجاد یک شیء Formatter با فرمت مورد نظر
-        formatter = logging.Formatter(f'{asctime} - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-
-        # ایجاد یک StreamHandler برای نمایش پیام‌های لاگ همزمان در کنسول
         console_handler = logging.StreamHandler(sys.stdout)
-        console_handler.setLevel(getattr(logging, self.console_log_level.upper()))
         console_handler.setFormatter(formatter)
-
-        # افزودن StreamHandler به logger
         self.logger_console.addHandler(console_handler)
-
-        # اگر می‌خواهید پیام‌های لاگ در فایل نیز ذخیره شوند، می‌توانید این بخش را اضافه کنید
-        # ایجاد یک شیء Logger برای فایل
+        
         self.logger = logging.getLogger(__name__ + '.file')
         self.logger.setLevel(getattr(logging, self.file_log_level.upper()))
-
-        # ایجاد یک FileHandler برای ذخیره پیام‌های لاگ در یک فایل
         file_handler = logging.FileHandler(self.log_name)
-        file_handler.setLevel(getattr(logging, self.file_log_level.upper()))
+        #file_handler.setLevel(getattr(logging, self.file_log_level.upper()))
         file_handler.setFormatter(formatter)
-
-        # افزودن FileHandler به logger
         self.logger.addHandler(file_handler)
 #=========================================================        
     def mkdir(self,path):
@@ -87,8 +65,6 @@ class Ota_github:
                 os.mkdir(subdirectory)
             except:
                 pass
-
-
         
 #======================================================        
     def download_repository_list(self):
@@ -115,7 +91,6 @@ class Ota_github:
             entry = {"name": item["name"], "path": path, "sha": item["sha"], "type": item["type"], "download_url": item["download_url"]}
             self.all_content_list.append(entry)
         return 
-
 
 
 #===========================================================
@@ -184,7 +159,6 @@ class Ota_github:
         return    
     
 
-
 #==============================================================
     def find_update(self):
 #         print(":find_update:")
@@ -200,19 +174,15 @@ class Ota_github:
                     for c in self.all_entries_list:
                         if a["path"] == c["path"]:
                             self.logger_console.info(f'\033[92mUp to date:------------ {a["path"]}✅\033[0m ')                            
-#                             print(f'\033[92mUp to date:------------ {a["path"]} ✅\033[0m')
                             break
                     else:
                         self.logger_console.info(f'\033[91mmising file:------------{a["path"]}⚠\033[0m')
                         self.logger.warning(f'mising file:------------{a["path"]} ⚠')
-                        
-#                         print('\033[91mmising file:------------',a["path"], "⚠","\033[0m")
                         self.download_list.append(a)
                     break
             else:
                 self.logger_console.info(f'\033[93mnew file:------------{a["path"]}✔\033[0m')
                 self.logger.info(f'new file:------------{a["path"]} ✔')
-#                 print("\033[93mnew file:------------",a["path"],"✔","\033[0m")
                 self.download_list.append(a)
 
 #==============================================================
@@ -271,7 +241,6 @@ class Ota_github:
                 except :
                         continue
 #====================================================
-                
 
     def run_ota(self):
         self.logger_console.info(f"\033[45m.........connecting..........\033[0m")
