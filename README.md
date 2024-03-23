@@ -1,11 +1,40 @@
-Title: GitHub Repository Cloner Module for ESP and MicroPython
-Description: Provide a brief and informative description here explaining the main purpose and functionalities of your module. For example, describe how the module works and its key features.
-Installation: Explain how to install the module, especially if it has any specific dependencies.
-Usage: Describe how to use the module. This includes code examples demonstrating the correct usage of the module.
-Methods: Provide a list of the main methods and functions of the module along with a brief explanation of each.
-Examples: Present more examples of how to use the module in this section.
-Issues: If there are any problems or need for support, kindly ask users to report issues in this section.
-Development: If you're open to collaboration in the development of the module, provide guidance on how users can contribute to its development.
-License: If your module has a specific license, include license information in this section.
-Author: Specify the name and contact information of the author or authors of the module here.
-By adding this information to the README.md file in your GitHub repository, users can easily understand what your module does and how to use it.
+GitHub Repository Cloner Module for ESP and MicroPython
+Description:
+This module is designed to clone GitHub repositories for ESP and MicroPython environments. It allows users to easily clone repositories and delete files outside of the selected repository. It's particularly useful for managing files and projects on ESP and MicroPython devices.
+
+Installation:
+To install the module, simply clone this repository to your local environment or download the ZIP file and extract its contents.
+
+Usage:
+Import the github_cloner module into your Python script.
+Instantiate an object of the GitHubCloner class.
+Call the appropriate methods to clone repositories and perform file operations.
+Methods:
+clone_repository(url): Clone a GitHub repository specified by the URL.
+delete_external_files(): Delete files outside of the selected repository.
+Examples:
+python
+Copy code
+from github_cloner import GitHubCloner
+
+# Instantiate GitHubCloner object
+cloner = GitHubCloner()
+
+# Clone a repository
+cloner.clone_repository("https://github.com/username/repository")
+
+# Delete external files
+cloner.delete_external_files()
+Issues:
+If you encounter any issues or have suggestions for improvements, please feel free to report them here.
+
+Development:
+Contributions to this project are welcome! If you'd like to contribute, please follow our contribution guidelines.
+
+License:
+This project is licensed under the MIT License.
+
+Author:
+Author: [Your Name]
+Email: [Your Email Address]
+GitHub: [Your GitHub Profile]
