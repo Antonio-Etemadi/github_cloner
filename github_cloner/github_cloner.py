@@ -13,14 +13,15 @@ except :
 import logging
 
 class Ota_github:
-    def __init__(self, url,directory="/",json_path="/",json_name="github_version.json",ota_cloner_name="Ota_github.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO"):
+    def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",ota_cloner_name="Ota_github.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO",log_path="/github_cloner"):
         self.log_name=log_name
+        self.log_path=log_path
         self.console_log_level=console_log_level
         self.file_log_level=file_log_level
         self.setup_logging()
         self.url = url
         self.all_content_list = []
-        self.directory=directory
+        self.directory="/"
         self.all_entries_list = []
         self.json_path=json_path
         self.json_name=json_name
@@ -46,7 +47,7 @@ class Ota_github:
 
         self.logger = logging.getLogger(__name__ + '.file')
         self.logger.setLevel(getattr(logging, self.file_log_level.upper()))
-        file_handler = logging.FileHandler(self.log_name)
+        file_handler = logging.FileHandler(self.log_path+"/"+self.log_name)
         file_handler.setLevel(getattr(logging, self.file_log_level.upper()))
         file_handler.setFormatter(formatter)
         self.logger.addHandler(file_handler)
@@ -78,7 +79,6 @@ class Ota_github:
         headers = {
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0"
                     }
-
         response = requests.get(f"{self.url}", headers=headers)    
         content_list = response.json()
         
@@ -140,17 +140,18 @@ class Ota_github:
         for item in self.download_list:
             
             if item['type'] == "dir":
-#                 print(item['type'],item['path'],item['download_url'])
+
                 self.mkdir(item['path'])
         for item in self.download_list:
             
             if item['type'] == "file":
-#                 print(item['type'],item['path'],item['download_url'])
+
                 file_url = item['download_url']
-#                 print("##",self.directory)
-                file_path=os.chdir(f"{self.directory}" )
+
+
+                file_path=os.chdir("/" )
                 response = requests.get(item['download_url'])
-#                 print("@===",item['path'])
+
                 with open(item['path'], 'wb') as file:
                     file.write(response.content)
                     file.close()
@@ -190,11 +191,12 @@ class Ota_github:
     def extract_name_and_sha_from_repo(self):
 #         print(":extract_name_and_sha_from_repo:")
         name_and_sha = [
-            {"name": self.json_name, "path": f"/{self.json_name}", "sha": 0, "type": "file"},
+            {"name": "/"+self.json_name, "path": f"{self.json_path+"/"+self.json_name}", "sha": 0, "type": "file"},
             {"name": "/logging.py", "path": f"/lib/logging.py", "sha": 0, "type": "file"},
-            {"name": self.log_name, "path": f"/{self.log_name}", "sha": 0, "type": "file"},
+            {"name": "/"+self.log_name, "path": f"{self.log_path+"/"+self.log_name}", "sha": 0, "type": "file"},
             {"name": "lib", "path": "/lib/", "sha": 0, "type": "dir"}
         ]
+        print(name_and_sha)
         name_and_sha.extend([
             {"name": item["name"], "path": item["path"], "sha": item["sha"], "type": item["type"]}
             for item in self.all_content_list
@@ -262,5 +264,3 @@ if __name__ == "__main__":
     url = "https://github.com/Antonio-Etemadi/github_cloner"
     ota_instance = Ota_github(url)
     ota_instance.run_ota()
-
-
