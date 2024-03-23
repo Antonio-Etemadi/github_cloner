@@ -188,7 +188,7 @@ class Git_cloner:
                         self.download_list.append(a)
                     break
             else:
-                self.logger_console.info(f'\033[93mnew file:------------{a["path"]}✔\033[0m')
+                self.logger_console.info(f'\033[93mnew file:------------{a["path"]}\033[0m')
                 self.logger.info(f'new file:------------{a["path"]} ')
                 self.download_list.append(a)
 
