@@ -199,7 +199,6 @@ class Git_cloner:
             {"name": "/"+self.log_name, "path": f"{self.log_path+"/"+self.log_name}", "sha": 0, "type": "file"},
             {"name": "lib", "path": "/lib/", "sha": 0, "type": "dir"}
         ]
-        print(name_and_sha)
         name_and_sha.extend([
             {"name": item["name"], "path": item["path"], "sha": item["sha"], "type": item["type"]}
             for item in self.all_content_list
