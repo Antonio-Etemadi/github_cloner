@@ -1,5 +1,5 @@
 
-# GitHub Repository Cloner For Micropython ESP
+# GitHub Repository Cloner or OTA For Micropython ESP
 
 This Micropython module is designed for cloning GitHub repositories. By using this module, you can easily obtain a copy of a GitHub repository.
 
