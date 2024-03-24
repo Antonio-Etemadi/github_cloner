@@ -285,6 +285,7 @@ class Git_cloner:
         print(gc.mem_alloc(),":find_update")
         
         self.download_repository_contents()
+        gc.collect()
         print(gc.mem_alloc(),":download_repository_contents")
         
         self.extract_name_and_sha_from_repo()
