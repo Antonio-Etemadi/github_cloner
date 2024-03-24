@@ -259,7 +259,7 @@ class Git_cloner:
         return
 #====================================================
     def run_cloner(self):
-        gc.collect()
+        
         print(gc.mem_alloc(),":__init_________________________")
         
         self.setup_logging()
@@ -268,8 +268,9 @@ class Git_cloner:
         print(f"\033[45m.........connecting..........\033[0m")
         
         self.download_repository_list()
+        gc.collect()
         print(gc.mem_alloc(),":download_repository_list")
-#         gc.collect()
+        
 
         self.list_directory_entries()
         print(gc.mem_alloc(),":list_directory_entries")
