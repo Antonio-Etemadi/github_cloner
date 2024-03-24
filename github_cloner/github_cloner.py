@@ -258,30 +258,44 @@ class Git_cloner:
                         continue
         return
 #====================================================
-    def run_cloner(self):     
+    def run_cloner(self):
+        print(gc.mem_alloc(),":__init_________________________")
+        
         self.setup_logging()
+        self.logger_console.debug(gc.mem_alloc(),":setup_logging")
+        
         self.logger_console.info(f"\033[45m.........connecting..........\033[0m")
+        
         self.download_repository_list()
-        
-        initial_memory = gc.mem_alloc()
-        print(initial_memory,":download_repository_list")
-        gc.collect()
-        initial_memory = gc.mem_alloc()
-        print(initial_memory,":download_repository_list")
-        
+        self.logger_console.debug(gc.mem_alloc(),":download_repository_list")
+#         gc.collect()
+
         self.list_directory_entries()
-        self.find_cloner()
-        self.read_SHA_json()
-        self.find_update()
-        self.download_repository_contents()
-        self.extract_name_and_sha_from_repo()
-        self.remove_deleted_file_in_repo()
+        self.logger_console.debug(gc.mem_alloc(),":list_directory_entries")
         
-        initial_memory = gc.mem_alloc()
-        print(initial_memory,":run_cloner")
-        gc.collect()
-        initial_memory = gc.mem_alloc()
-        print(initial_memory,":run_cloner")
+        self.find_cloner()
+        self.logger_console.debug(gc.mem_alloc(),":find_cloner")
+        
+        self.read_SHA_json()
+        self.logger_console.debug(gc.mem_alloc(),":read_SHA_json")
+        
+        self.find_update()
+        self.logger_console.debug(gc.mem_alloc(),":find_update")
+        
+        self.download_repository_contents()
+        self.logger_console.debug(gc.mem_alloc(),":download_repository_contents")
+        
+        self.extract_name_and_sha_from_repo()
+        self.logger_console.debug(gc.mem_alloc(),":extract_name_and_sha_from_repo")
+        
+        self.remove_deleted_file_in_repo()
+        self.logger_console.debug(gc.mem_alloc(),":remove_deleted_file_in_repo")
+        
+#         initial_memory = gc.mem_alloc()
+#         print(initial_memory,":run_cloner")
+#         gc.collect()
+#         initial_memory = gc.mem_alloc()
+#         print(initial_memory,":run_cloner")
         
         
 #         memory_after_gc = gc.mem_alloc()
