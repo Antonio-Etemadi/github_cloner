@@ -260,43 +260,43 @@ class Git_cloner:
 #====================================================
     def run_cloner(self):
         
-        print(gc.mem_alloc(),":__init_________________________")
+        print(os.getcwd(),":__init_________________________")
         
         self.setup_logging()
-        print(gc.mem_alloc(),":setup_logging")
+        print(os.getcwd(),":setup_logging")
         
         print(f"\033[45m.........connecting..........\033[0m")
         
         self.download_repository_list()
         gc.collect()
-        print(gc.mem_alloc(),":download_repository_list")
+        print(os.getcwd(),":download_repository_list")
         
 
         self.list_directory_entries()
-        print(gc.mem_alloc(),":list_directory_entries")
+        print(os.getcwd(),":list_directory_entries")
         
         self.find_cloner()
-        print(gc.mem_alloc(),":find_cloner")
+        print(os.getcwd(),":find_cloner")
         
         self.read_SHA_json()
-        print(gc.mem_alloc(),":read_SHA_json")
+        print(os.getcwd(),":read_SHA_json")
         
         self.find_update()
-        print(gc.mem_alloc(),":find_update")
+        print(os.getcwd(),":find_update")
         
         self.download_repository_contents()
         gc.collect()
-        print(gc.mem_alloc(),":download_repository_contents")
+        print(os.getcwd(),":download_repository_contents")
         
         self.extract_name_and_sha_from_repo()
-        print(gc.mem_alloc(),":extract_name_and_sha_from_repo")
+        print(os.getcwd(),":extract_name_and_sha_from_repo")
         
         self.remove_deleted_file_in_repo()
-        print(gc.mem_alloc(),":remove_deleted_file_in_repo")
+        print(gos.getcwd(),":remove_deleted_file_in_repo")
         
 
         gc.collect()
-        print(gc.mem_alloc(),":gc.collect")
+        print(os.getcwd(),":gc.collect")
         
         
 
