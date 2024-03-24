@@ -158,6 +158,7 @@ class Git_cloner:
                 with open(item['path'], 'wb') as file:
                     file.write(response.content)
                     file.close()
+                    gc.collect()
                 self.logger.info(f'downloaded {item['path']}')
                 self.logger_console.info(f'\033[94mdownloaded:------------ {item["path"]}✔\033[0m ')
 
