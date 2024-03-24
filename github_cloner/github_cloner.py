@@ -294,16 +294,13 @@ class Git_cloner:
         self.remove_deleted_file_in_repo()
         print(gc.mem_alloc(),":remove_deleted_file_in_repo")
         
-#         initial_memory = gc.mem_alloc()
-#         print(initial_memory,":run_cloner")
-#         gc.collect()
-#         initial_memory = gc.mem_alloc()
-#         print(initial_memory,":run_cloner")
+
+        gc.collect()
+
         
         
-#         memory_after_gc = gc.mem_alloc()
-#         cleaned_memory=(self.initial_memory-memory_after_gc)/1000
-#         self.logger_console.info(f"\033[41mcleaned memory {cleaned_memory} KB\033[0m")
+
+        self.logger_console.info(f"\033[41mcleaned memory {cleaned_memory} KB\033[0m")
 
 #============================================================
 if __name__ == "__main__":
