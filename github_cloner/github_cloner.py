@@ -259,8 +259,9 @@ class Git_cloner:
         return
 #====================================================
     def run_cloner(self):
-        print(gc.mem_alloc(),":__init_________________________")
         gc.collect()
+        print(gc.mem_alloc(),":__init_________________________")
+        
         self.setup_logging()
         print(gc.mem_alloc(),":setup_logging")
         
