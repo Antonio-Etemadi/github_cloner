@@ -296,11 +296,11 @@ class Git_cloner:
         
 
         gc.collect()
-
+        print(gc.mem_alloc(),":gc.collect")
         
         
 
-        self.logger_console.info(f"\033[41mcleaned memory {cleaned_memory} KB\033[0m")
+        self.logger_console.info(f"\033[41mcleaned memory\033[0m")
 
 #============================================================
 if __name__ == "__main__":
