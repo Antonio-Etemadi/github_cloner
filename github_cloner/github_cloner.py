@@ -292,7 +292,7 @@ class Git_cloner:
         print(os.getcwd(),":extract_name_and_sha_from_repo")
         
         self.remove_deleted_file_in_repo()
-        print(gos.getcwd(),":remove_deleted_file_in_repo")
+        print(os.getcwd(),":remove_deleted_file_in_repo")
         
 
         gc.collect()
