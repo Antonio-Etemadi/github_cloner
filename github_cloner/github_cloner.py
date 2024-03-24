@@ -260,7 +260,7 @@ class Git_cloner:
 #====================================================
     def run_cloner(self):
         print(gc.mem_alloc(),":__init_________________________")
-        
+        gc.collect()
         self.setup_logging()
         print(gc.mem_alloc(),":setup_logging")
         
