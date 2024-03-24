@@ -12,8 +12,10 @@ except :
     mip.install("logging",mpy=False)
 import logging
 
+
+
 class Git_cloner:
-    def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",cloner_name="github_cloner.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO",log_path="/github_cloner"):
+    def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",cloner_name="github_cloner.py",log_name="github_cloner.log",console_log_level="critical",file_log_level="INFO",log_path="/github_cloner"):      
         self.log_name=log_name
         self.log_path=log_path
         self.console_log_level=console_log_level
@@ -46,7 +48,6 @@ class Git_cloner:
                 os.mkdir(subdirectory)
             except:
                 pass
-        gc.collect()
         return
 #============================================
     def setup_logging(self):
@@ -68,11 +69,10 @@ class Git_cloner:
         file_handler.setLevel(getattr(logging, self.file_log_level.upper()))
         file_handler.setFormatter(formatter)
         self.logger.addHandler(file_handler)
+        
         return
 #=========================================================        
-
-        
-       
+   
     def download_repository_list(self):
         self.logger_console.debug(":download_repository_list:")
         if not self.url.startswith("https://api.github.com/"):
@@ -95,7 +95,6 @@ class Git_cloner:
                 path = "/" + item["path"]
             entry = {"name": item["name"], "path": path, "sha": item["sha"], "type": item["type"], "download_url": item["download_url"]}
             self.all_content_list.append(entry)
-        gc.collect()
         return 
 
 
@@ -117,8 +116,7 @@ class Git_cloner:
                 item["path"] += "/"
                 self.directory=item['path']
                 subdir_entries = self.list_directory_entries()
-                self.directory="/"
-        gc.collect()        
+                self.directory="/"       
         return 
 #=======================================================
     def find_cloner(self):
@@ -132,7 +130,6 @@ class Git_cloner:
         for cloner in cloner_list:
             if cloner['path'] not in name_set:
                     self.download_list.append(cloner)
-        gc.collect()
         return 
 #=======================================================
 
@@ -146,7 +143,6 @@ class Git_cloner:
         except :
             self.logger_console.debug("SHA JSON file not found.")
             return False
-        gc.collect()
         return
 
 #=======================================================================
@@ -164,10 +160,9 @@ class Git_cloner:
                 with open(item['path'], 'wb') as file:
                     file.write(response.content)
                     file.close()
-#                     gc.collect()
                 self.logger.info(f'downloaded {item['path']}')
                 self.logger_console.info(f'\033[94mdownloaded:------------ {item["path"]}✔\033[0m ')
-        gc.collect()
+            
         return    
     
 
@@ -198,7 +193,6 @@ class Git_cloner:
                 self.logger_console.info(f'\033[93mnew file:------------{a["path"]}\033[0m')
                 self.logger.info(f'new file:------------{a["path"]} ')
                 self.download_list.append(a)
-        gc.collect()
         return
 
 #==============================================================
@@ -225,7 +219,6 @@ class Git_cloner:
         with open(self.json_name, 'w') as file:
             json.dump(version_list, file)
             self.logger_console.debug("file version_list.json created")
-        gc.collect()
         return
 
 #========================================================================
@@ -247,7 +240,6 @@ class Git_cloner:
             if not isinstance(e, FileNotFoundError):
                 self.logger.error(f"Failed to remove {rm_dir}: {e}")
                 self.logger_console.error("\033[91Failed to remove {rm_dir}: {e}\033[0m" )
-        gc.collect()
         return
 
                 
@@ -264,13 +256,19 @@ class Git_cloner:
                     self.remove_dir(file_info["path"])
                 except :
                         continue
-        gc.collect()
         return
 #====================================================
-    def run_cloner(self):
+    def run_cloner(self):     
         self.setup_logging()
         self.logger_console.info(f"\033[45m.........connecting..........\033[0m")
         self.download_repository_list()
+        
+        initial_memory = gc.mem_alloc()
+        print(initial_memory,":download_repository_list")
+        gc.collect()
+        initial_memory = gc.mem_alloc()
+        print(initial_memory,":download_repository_list")
+        
         self.list_directory_entries()
         self.find_cloner()
         self.read_SHA_json()
@@ -278,14 +276,20 @@ class Git_cloner:
         self.download_repository_contents()
         self.extract_name_and_sha_from_repo()
         self.remove_deleted_file_in_repo()
+        
         initial_memory = gc.mem_alloc()
+        print(initial_memory,":run_cloner")
         gc.collect()
-        memory_after_gc = gc.mem_alloc()
-        cleaned_memory=(initial_memory-memory_after_gc)/1000
-        self.logger_console.info(f"\033[41mcleaned memory {cleaned_memory} KB\033[0m")
+        initial_memory = gc.mem_alloc()
+        print(initial_memory,":run_cloner")
+        
+        
+#         memory_after_gc = gc.mem_alloc()
+#         cleaned_memory=(self.initial_memory-memory_after_gc)/1000
+#         self.logger_console.info(f"\033[41mcleaned memory {cleaned_memory} KB\033[0m")
 
 #============================================================
 if __name__ == "__main__":
-    url="https://github.com/Antonio-Etemadi/github_cloner"
+    url="https://github.com/Antonio-Etemadi/foil"
     cloner = Git_cloner(url)
     cloner.run_cloner()
