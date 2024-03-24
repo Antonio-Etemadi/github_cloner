@@ -262,34 +262,34 @@ class Git_cloner:
         print(gc.mem_alloc(),":__init_________________________")
         
         self.setup_logging()
-        self.logger_console.debug(gc.mem_alloc(),":setup_logging")
+        print(gc.mem_alloc(),":setup_logging")
         
-        self.logger_console.info(f"\033[45m.........connecting..........\033[0m")
+        print(f"\033[45m.........connecting..........\033[0m")
         
         self.download_repository_list()
-        self.logger_console.debug(gc.mem_alloc(),":download_repository_list")
+        print(gc.mem_alloc(),":download_repository_list")
 #         gc.collect()
 
         self.list_directory_entries()
-        self.logger_console.debug(gc.mem_alloc(),":list_directory_entries")
+        print(gc.mem_alloc(),":list_directory_entries")
         
         self.find_cloner()
-        self.logger_console.debug(gc.mem_alloc(),":find_cloner")
+        print(gc.mem_alloc(),":find_cloner")
         
         self.read_SHA_json()
-        self.logger_console.debug(gc.mem_alloc(),":read_SHA_json")
+        print(gc.mem_alloc(),":read_SHA_json")
         
         self.find_update()
-        self.logger_console.debug(gc.mem_alloc(),":find_update")
+        print(gc.mem_alloc(),":find_update")
         
         self.download_repository_contents()
-        self.logger_console.debug(gc.mem_alloc(),":download_repository_contents")
+        print(gc.mem_alloc(),":download_repository_contents")
         
         self.extract_name_and_sha_from_repo()
-        self.logger_console.debug(gc.mem_alloc(),":extract_name_and_sha_from_repo")
+        print(gc.mem_alloc(),":extract_name_and_sha_from_repo")
         
         self.remove_deleted_file_in_repo()
-        self.logger_console.debug(gc.mem_alloc(),":remove_deleted_file_in_repo")
+        print(gc.mem_alloc(),":remove_deleted_file_in_repo")
         
 #         initial_memory = gc.mem_alloc()
 #         print(initial_memory,":run_cloner")
