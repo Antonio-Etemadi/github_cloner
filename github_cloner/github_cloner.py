@@ -46,6 +46,7 @@ class Git_cloner:
                 os.mkdir(subdirectory)
             except:
                 pass
+         gc.collect()
 #============================================
     def setup_logging(self):
         current_time = time.localtime()
