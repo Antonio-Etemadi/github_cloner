@@ -260,46 +260,20 @@ class Git_cloner:
 #====================================================
     def run_cloner(self):
         
-        print(os.getcwd(),":__init_________________________")
-        
         self.setup_logging()
-        print(os.getcwd(),":setup_logging")
-        
-        print(f"\033[45m.........connecting..........\033[0m")
-        
+        self.logger_console.info(f"\033[45m.........connecting..........\033[0m")
         self.download_repository_list()
         gc.collect()
-        print(os.getcwd(),":download_repository_list")
-        
-
         self.list_directory_entries()
-        print(os.getcwd(),":list_directory_entries")
-        
-        self.find_cloner()
-        print(os.getcwd(),":find_cloner")
-        
-        self.read_SHA_json()
-        print(os.getcwd(),":read_SHA_json")
-        
-        self.find_update()
-        print(os.getcwd(),":find_update")
-        
+        self.find_cloner()        
+        self.read_SHA_json()        
+        self.find_update()        
         self.download_repository_contents()
-        gc.collect()
-        print(os.getcwd(),":download_repository_contents")
-        
-        self.extract_name_and_sha_from_repo()
-        print(os.getcwd(),":extract_name_and_sha_from_repo")
-        
+        gc.collect()        
+        self.extract_name_and_sha_from_repo()        
         self.remove_deleted_file_in_repo()
-        print(os.getcwd(),":remove_deleted_file_in_repo")
-        
-
+        os.chdir("/")
         gc.collect()
-        print(os.getcwd(),":gc.collect")
-        
-        
-
         self.logger_console.info(f"\033[41mcleaned memory\033[0m")
 
 #============================================================
@@ -307,3 +281,4 @@ if __name__ == "__main__":
     url="https://github.com/Antonio-Etemadi/foil"
     cloner = Git_cloner(url)
     cloner.run_cloner()
+
