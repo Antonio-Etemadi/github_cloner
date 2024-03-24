@@ -15,7 +15,7 @@ import logging
 
 
 class Git_cloner:
-    def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",cloner_name="github_cloner.py",log_name="github_cloner.log",console_log_level="critical",file_log_level="INFO",log_path="/github_cloner"):      
+    def __init__(self, url,json_path="/github_cloner",json_name="github_version.json",cloner_name="github_cloner.py",log_name="github_cloner.log",console_log_level="INFO",file_log_level="INFO",log_path="/github_cloner"):      
         self.log_name=log_name
         self.log_path=log_path
         self.console_log_level=console_log_level
