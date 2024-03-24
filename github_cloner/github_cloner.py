@@ -168,7 +168,7 @@ class Git_cloner:
 #==============================================================
     def find_update(self):
         self.logger_console.debug(":find_update:")
-
+        
         for a in self.all_content_list:
             for b in self.json_SHA_list:
                 if a["path"] == b["path"] and a["sha"] != b["sha"]  :
@@ -192,7 +192,7 @@ class Git_cloner:
                 self.logger_console.info(f'\033[93mnew file:------------{a["path"]}\033[0m')
                 self.logger.info(f'new file:------------{a["path"]} ')
                 self.download_list.append(a)
-
+        gc.collect()
 #==============================================================
     def extract_name_and_sha_from_repo(self):
         self.logger_console.debug(":extract_name_and_sha_from_repo:")
