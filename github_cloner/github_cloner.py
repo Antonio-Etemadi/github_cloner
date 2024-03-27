@@ -278,7 +278,7 @@ class Git_cloner:
 
 #============================================================
 if __name__ == "__main__":
-    url="https://github.com/Antonio-Etemadi/foil"
+    url="https://github.com/Antonio-Etemadi/github_cloner"
     cloner = Git_cloner(url)
     cloner.run_cloner()
 
